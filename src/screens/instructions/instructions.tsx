@@ -3,16 +3,24 @@ import { View, ScrollView, Image } from "react-native";
 import styles from "./instructions.styles";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackNavigatorParams } from "@config/navigator";
-import { GradientBackground, Button } from "@Components";
+import { GradientBackground, Button, DrawerHeader } from "@Components";
 import {Text} from "@Components"
+import { SafeAreaView } from "react-native-safe-area-context";
+import { DrawerActions } from "@react-navigation/native";
 
 type InstructionsProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "Instructions">;
 };
 
 export default function Instructions({ navigation }: InstructionsProps): ReactElement {
+    function openDrawer(): any {
+        navigation.dispatch(DrawerActions.openDrawer())
+    }
+    
     return (
         <GradientBackground>
+            <SafeAreaView>
+            <DrawerHeader callbackFunction={openDrawer}/>
             <ScrollView contentContainerStyle={styles.container}>
                 <View>
                 <Text style={styles.header}>group therapy</Text>
@@ -28,6 +36,7 @@ export default function Instructions({ navigation }: InstructionsProps): ReactEl
                     <Text style={styles.body}>•	the first person to become “free” is the winner.</Text>
                 </View>
             </ScrollView>
+            </SafeAreaView>
         </GradientBackground>
     );
 }

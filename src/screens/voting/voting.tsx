@@ -3,10 +3,12 @@ import { View, ScrollView} from "react-native";
 import styles from "./voting.styles";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackNavigatorParams } from "@config/navigator";
-import { Button, GradientBackground, Scoreboard, Text } from "@Components";
+import { Button, DrawerHeader, GradientBackground, Scoreboard, Text } from "@Components";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { ScreenNames } from "@config/navigator"
 import { addScore, minusScore, resetGame, resetVoter, setPerformingTurn, setVotingTurn } from "../../redux/actions";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { DrawerActions } from "@react-navigation/native";
 
 type VotingProps = {
     navigation: StackNavigationProp<StackNavigatorParams, ScreenNames.Voting>;
@@ -33,9 +35,15 @@ export default function Voting({ navigation }: VotingProps): ReactElement {
     const coppedOut = copOut >= (numOfPlayers-1)/2
 
     // ---------helper functions---------------
+    function openDrawer(): any {
+        navigation.dispatch(DrawerActions.openDrawer())
+    }
+    
     //-----------------------------------------
     return (
         <GradientBackground>
+            <SafeAreaView>
+            <DrawerHeader callbackFunction={openDrawer}/>
             <ScrollView contentContainerStyle={styles.container}>
                 { !endOfVoting && !winner ?
                 <>
@@ -92,6 +100,7 @@ export default function Voting({ navigation }: VotingProps): ReactElement {
                     }}/>
                 </>: <Text>  </Text>}
             </ScrollView>
+            </SafeAreaView>
         </GradientBackground>
     );
 }

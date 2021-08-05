@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { SafeAreaView, Animated, View, TouchableOpacity } from "react-native";
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
-import { Button, GradientBackground } from "@Components";
+import { Button, DrawerHeader, GradientBackground } from "@Components";
 import styles from "./peformprompt.styles";
 import prompts from "../../prompts.json"
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
@@ -9,6 +9,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { StackNavigatorParams, ScreenNames} from "@config/navigator";
 import { addCardId, minusScore } from "../../redux/actions";
 import { Text } from "@Components"
+import { DrawerActions } from "@react-navigation/native";
 
 type PerformPromptProps = {
     navigation: StackNavigationProp<StackNavigatorParams, ScreenNames.PerformPrompt>;
@@ -35,6 +36,9 @@ export default function PerformPrompt({navigation}: PerformPromptProps): ReactEl
     function getRandomInt(max: number):number {
         return Math.floor(Math.random() * max);
         }
+    function openDrawer(): any {
+        navigation.dispatch(DrawerActions.openDrawer())
+    }
     //-----------------------------------------
 
     // ------------ensuring prompt is unique to game------
@@ -50,6 +54,7 @@ export default function PerformPrompt({navigation}: PerformPromptProps): ReactEl
     return ( 
         <GradientBackground>
             <SafeAreaView style={styles.container}>
+            <DrawerHeader callbackFunction={openDrawer}/>
                 <Text style={styles.prompt}>perform prompt {players[performingPlayer]}</Text>
                 <TouchableOpacity style={styles.card}
                     onPress={() => {

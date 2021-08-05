@@ -27,7 +27,6 @@ const Stack = createStackNavigator<StackNavigatorParams>();
 export default function Navigator(): ReactElement {
     
     return (
-        <NavigationContainer>
             <Stack.Navigator headerMode="none">
                 <Stack.Screen name={ScreenNames.Home} component={Home} />  
                 <Stack.Screen name={ScreenNames.EnterPlayers} component={EnterPlayers} />
@@ -36,6 +35,6 @@ export default function Navigator(): ReactElement {
                 <Stack.Screen name={ScreenNames.Scores} component={Scores} />
                 <Stack.Screen name={ScreenNames.Instructions} component={Instructions} />
             </Stack.Navigator>
-        </NavigationContainer>
+
     );
 }

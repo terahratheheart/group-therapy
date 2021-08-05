@@ -7,4 +7,5 @@ export { default as Player } from "./player/player"
 export {default as DeletePlayerIcon } from "./delete-player-icon/delete-player-icon"
 export { default as PlayerDisplay } from "./player-display/player-display"
 export { default as Scoreboard } from "./scoreboard/scoreboard"
+export { default as DrawerHeader } from "./header/header"
 

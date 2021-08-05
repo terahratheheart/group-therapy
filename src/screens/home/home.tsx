@@ -3,16 +3,20 @@ import { View, ScrollView} from "react-native";
 import styles from "./home.styles";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackNavigatorParams } from "@config/navigator";
-import { GradientBackground, HomeButton, Text } from "@Components";
+import { Button, DrawerHeader, GradientBackground, HomeButton, Text } from "@Components";
 import { ScreenNames } from "@config/navigator"
+import { DrawerActions } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type HomeProps = {
     navigation: StackNavigationProp<StackNavigatorParams, ScreenNames.Home>;
 };
 
 export default function Home({ navigation }: HomeProps): ReactElement {
+
     return (
         <GradientBackground>
+            <SafeAreaView>
             <ScrollView contentContainerStyle={styles.container}>
                 <Text style={styles.title}>group therapy</Text>
                 <Text style={styles.subtitle}>is it really a game?</Text>
@@ -29,6 +33,7 @@ export default function Home({ navigation }: HomeProps): ReactElement {
                         }}style={styles.button} title="how to play" />
                 </View>
             </ScrollView>
+            </SafeAreaView>
         </GradientBackground>
     );
 }

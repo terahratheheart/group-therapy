@@ -4,3 +4,4 @@ export { default as Instructions } from "./instructions/instructions";
 export { default as EnterPlayers } from "./enterplayers/enter-players";
 export {default as Voting} from "./voting/voting";
 export {default as Scores } from "./scoreboard/scores"
+export {default as SidebarScores } from "./sidebar-scores/sidebar-scores"
