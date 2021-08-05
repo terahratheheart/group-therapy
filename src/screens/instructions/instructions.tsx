@@ -2,25 +2,34 @@ import React, { Component, ReactElement } from "react";
 import { View, ScrollView, Image } from "react-native";
 import styles from "./instructions.styles";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { StackNavigatorParams } from "@config/navigator";
+import { ScreenNames, StackNavigatorParams } from "@config/navigator";
 import { GradientBackground, Button, DrawerHeader } from "@Components";
 import {Text} from "@Components"
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DrawerActions } from "@react-navigation/native";
+import {useAppDispatch } from "../../redux/hooks";
+import { resetGame } from "../../redux/actions";
 
 type InstructionsProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "Instructions">;
 };
 
 export default function Instructions({ navigation }: InstructionsProps): ReactElement {
+    const dispatch = useAppDispatch()
+
     function openDrawer(): any {
         navigation.dispatch(DrawerActions.openDrawer())
     }
-    
+
+    function endGame(): any{
+        dispatch(resetGame())
+        navigation.navigate(ScreenNames.Home)
+    }
+
     return (
         <GradientBackground>
             <SafeAreaView>
-            <DrawerHeader callbackFunction={openDrawer}/>
+            <DrawerHeader drawerOpenCallback={openDrawer} endGameCallback={endGame} />
             <ScrollView contentContainerStyle={styles.container}>
                 <View>
                 <Text style={styles.header}>group therapy</Text>

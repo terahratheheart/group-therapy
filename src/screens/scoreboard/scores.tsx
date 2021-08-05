@@ -6,7 +6,7 @@ import { StackNavigatorParams } from "@config/navigator";
 import { Button, DrawerHeader, GradientBackground, Scoreboard, Text } from "@Components";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { ScreenNames } from "@config/navigator"
-import { addScore, minusScore, resetVoter, setPerformingTurn, setVotingTurn } from "../../redux/actions";
+import { addScore, minusScore, resetGame, resetVoter, setPerformingTurn, setVotingTurn } from "../../redux/actions";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DrawerActions } from "@react-navigation/native";
 
@@ -32,12 +32,16 @@ export default function Scores({ navigation }: ScoresProps): ReactElement {
         navigation.dispatch(DrawerActions.openDrawer())
     }
 
- 
+    function endGame(): any{
+        dispatch(resetGame())
+        navigation.navigate(ScreenNames.Home)
+    }
+
     //-----------------------------------------
     return (
         <GradientBackground>
             <SafeAreaView>   
-            <DrawerHeader callbackFunction={openDrawer}/>
+            <DrawerHeader drawerOpenCallback={openDrawer} endGameCallback={openDrawer}/>
             <ScrollView contentContainerStyle={styles.container}>
     
                 <>

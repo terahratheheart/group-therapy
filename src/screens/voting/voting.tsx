@@ -38,12 +38,17 @@ export default function Voting({ navigation }: VotingProps): ReactElement {
     function openDrawer(): any {
         navigation.dispatch(DrawerActions.openDrawer())
     }
+
+    function endGame(): any{
+        dispatch(resetGame())
+        navigation.navigate(ScreenNames.Home)
+    }
     
     //-----------------------------------------
     return (
         <GradientBackground>
             <SafeAreaView>
-            <DrawerHeader callbackFunction={openDrawer}/>
+            <DrawerHeader drawerOpenCallback={openDrawer} endGameCallback={endGame}/>
             <ScrollView contentContainerStyle={styles.container}>
                 { !endOfVoting && !winner ?
                 <>

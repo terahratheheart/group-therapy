@@ -7,7 +7,7 @@ import prompts from "../../prompts.json"
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackNavigatorParams, ScreenNames} from "@config/navigator";
-import { addCardId, minusScore } from "../../redux/actions";
+import { addCardId, minusScore, resetGame } from "../../redux/actions";
 import { Text } from "@Components"
 import { DrawerActions } from "@react-navigation/native";
 
@@ -39,6 +39,11 @@ export default function PerformPrompt({navigation}: PerformPromptProps): ReactEl
     function openDrawer(): any {
         navigation.dispatch(DrawerActions.openDrawer())
     }
+
+    function endGame(): any{
+        dispatch(resetGame())
+        navigation.navigate(ScreenNames.Home)
+    }
     //-----------------------------------------
 
     // ------------ensuring prompt is unique to game------
@@ -54,7 +59,7 @@ export default function PerformPrompt({navigation}: PerformPromptProps): ReactEl
     return ( 
         <GradientBackground>
             <SafeAreaView style={styles.container}>
-            <DrawerHeader callbackFunction={openDrawer}/>
+            <DrawerHeader drawerOpenCallback={openDrawer} endGameCallback={endGame}/>
                 <Text style={styles.prompt}>perform prompt {players[performingPlayer]}</Text>
                 <TouchableOpacity style={styles.card}
                     onPress={() => {
@@ -84,11 +89,6 @@ export default function PerformPrompt({navigation}: PerformPromptProps): ReactEl
                         setCompleteButtonVisible(false)
                         setCardView("")
                         setCardButtonsVisible(false);
-                }}/>
-                <Button title="test" 
-                    onPress={() => {
-                        navigation.goBack()
-            
                 }}/>
                 </>
                 : <Text>  </Text> }
