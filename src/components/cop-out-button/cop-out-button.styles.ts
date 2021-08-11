@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     buttonText: {
-        fontSize: 16,
+        fontSize: 49,
         color: "#ffffff",
         textAlign: "center"
     }

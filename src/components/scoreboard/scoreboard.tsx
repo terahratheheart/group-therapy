@@ -3,7 +3,7 @@ import React, { Fragment, ReactElement } from "react";
 import styles from "./scoreboard.styles";
 import { Player } from "@Components"
 import {useAppSelector} from "../../redux/hooks";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Text } from "@Components"
 
 
@@ -20,14 +20,14 @@ export default function Scoreboard({players}: ScoreboardProps): ReactElement {
 
 
     const playerComponents = players.map((player, index) => {
-        return (<Fragment key={index}>
-                <Player
-                    playerName={player.playerName}
-                ></Player>
-                <Text style={styles.score}>
-                score: {player.score}
-                </Text>
-                </Fragment>
+        return (
+                <View style={styles.container}>
+                    <Fragment key={index}>
+                        <Text style={styles.player}>{player.playerName}</Text>
+                        <Text style={styles.score}> - score: {player.score}
+                        </Text>
+                    </Fragment>
+                </View>
         );
     });
         return <ScrollView>

@@ -8,7 +8,7 @@ type DeletePlayerIconProps = {
 
 export default function DeletePlayerIcon({...props}: DeletePlayerIconProps): ReactElement {
     return (
-        <TouchableOpacity {...props}>
+        <TouchableOpacity style={styles.button} {...props}>
             <AntDesign name="minuscircleo" size={24} color="white" />
         </TouchableOpacity>
     );

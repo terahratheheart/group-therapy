@@ -27,7 +27,7 @@ export default function PerformPrompt({navigation}: PerformPromptProps): ReactEl
     const [clockVisible, setClockIsVisible] = useState(false)
     const [completeButtonVisible, setCompleteButtonVisible] = useState(false)
     const [cardButtonsVisible, setCardButtonsVisible] = useState(false)
-    const [cardView, setCardView] = useState("")
+    const [cardView, setCardView] = useState("tap for prompt")
     const [cardClickable, setCardClickable] = useState(true)
 
     const dispatch = useAppDispatch()
@@ -58,46 +58,55 @@ export default function PerformPrompt({navigation}: PerformPromptProps): ReactEl
 
     return ( 
         <GradientBackground>
-            <SafeAreaView style={styles.container}>
             <DrawerHeader drawerOpenCallback={openDrawer} endGameCallback={endGame}/>
-                <Text style={styles.prompt}>perform prompt {players[performingPlayer]}</Text>
-                <TouchableOpacity style={styles.card}
-                    onPress={() => {
-                    if(cardClickable){
-                        setCardView(prompt.prompt)
-                        dispatch(addCardId(prompt.id))}
-                    setCardClickable(false)
-                    setCardButtonsVisible(true)
-                    {console.log(cardIds)}
-                    }}>
-                    <Text style={styles.cardText}>{cardView}</Text>
-                </TouchableOpacity>
+            <SafeAreaView style={styles.container}>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.header}>{players[performingPlayer]}'s turn</Text>
+                <View style={styles.cardContainer}>
+                </View>
+                    <TouchableOpacity style={styles.card}
+                        onPress={() => {
+                        if(cardClickable){
+                            setCardView(prompt.prompt)
+                            dispatch(addCardId(prompt.id))}
+                        setCardClickable(false)
+                        setCardButtonsVisible(true)
+                        }}>
+                        <Text style={styles.cardText}>{cardView}</Text>
+                    </TouchableOpacity>
+                </View>
                 
 
                 {cardButtonsVisible ? 
-                <>
-                <Button title="accept"
-                    onPress={() => {
-                        setClockIsVisible(true)
-                        setIsPlaying(true)
-                        setCardButtonsVisible(false)
-                    }} />
-                <Button title="deny" 
-                    onPress={() => {
-                        navigation.navigate(ScreenNames.Scores)
-                        dispatch(minusScore(performingPlayer))
-                        setCompleteButtonVisible(false)
-                        setCardView("")
-                        setCardButtonsVisible(false);
-                }}/>
-                </>
+                <View style={styles.buttonContainer}>
+                    <Button 
+                        title="deny" 
+                        style={styles.button}
+                        onPress={() => {
+                            navigation.navigate(ScreenNames.Scores)
+                            dispatch(minusScore(performingPlayer))
+                            setCompleteButtonVisible(false)
+                            setCardView("tap for prompt")
+                            setCardButtonsVisible(false)
+                            setCardClickable(true);
+                    }}/>
+                    <Button 
+                        title="accept"
+                        style={styles.button}    
+                        onPress={() => {
+                            setClockIsVisible(true)
+                            setIsPlaying(true)
+                            setCardButtonsVisible(false)
+                        }} />
+                </View>
                 : <Text>  </Text> }
 
-                <View style={styles.container}>
+                <View style={styles.clockContainer}>
+                    
                     {clockVisible ?
                     <CountdownCircleTimer
                         isPlaying={isPlaying}
-                        duration={1}
+                        duration={2}
                         colors={[
                         ['#000000', 0.4],
                         ['#000000', 0.4],
@@ -109,21 +118,24 @@ export default function PerformPrompt({navigation}: PerformPromptProps): ReactEl
                             return [false, 0] }}
                         >
                     {   ({ remainingTime}) => (
-                            <Animated.Text style={{ color: "#ffffff", fontSize: 40 }}>
-                                {remainingTime}
+                            <Animated.Text style={{ color: "#ffffff", fontSize: 18 }}>
+                                <Text style={styles.clockText}>prepare for performance</Text>
                             </Animated.Text>
                         )}
                     </CountdownCircleTimer>
                     : <Text>  </Text>}
                 </View>
 
-                <View>
-                {completeButtonVisible ? <Button title="prompt complete" 
-                                        onPress={() => {
-                                        navigation.navigate(ScreenNames.Voting)
-                                        setCompleteButtonVisible(false)
-                                        setCardView("")
-                                        setCardClickable(true);
+                <View style={styles.completeButtonContainer}>
+                {completeButtonVisible ? 
+                    <Button 
+                        title="prompt complete" 
+                        style={styles.completeButton}
+                        onPress={() => {
+                        navigation.navigate(ScreenNames.Voting)
+                        setCompleteButtonVisible(false)
+                        setCardView("tap for prompt")
+                        setCardClickable(true);
                         }}/> : <Text>  </Text>}
                 </View>
 

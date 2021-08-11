@@ -1,3 +1,5 @@
+import Button from "./button/button";
+
 export { default as Text } from "./text/text";
 export { default as AppBootstrap } from "./app-bootstrap/app-bootstrap";
 export { default as GradientBackground } from "./gradient-background/gradient-background";
@@ -8,4 +10,5 @@ export {default as DeletePlayerIcon } from "./delete-player-icon/delete-player-i
 export { default as PlayerDisplay } from "./player-display/player-display"
 export { default as Scoreboard } from "./scoreboard/scoreboard"
 export { default as DrawerHeader } from "./header/header"
-
+export {default as WithItButton } from "./with-it-button/with-it-button"
+export {default as CopOutButton } from "./cop-out-button/cop-out-button"

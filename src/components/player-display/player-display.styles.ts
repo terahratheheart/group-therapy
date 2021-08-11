@@ -1,16 +1,20 @@
 import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
-    button: {
-        backgroundColor: "#000000",
-        paddingVertical: 20,
-        paddingHorizontal: 35,
-        borderRadius: 10
+    container: {
+        flex: 1,
+        flexDirection: "row"
     },
-    buttonText: {
-        fontSize: 12,
-        color: "#ffffff",
-        textAlign: "center"
+    deleteButton: {
+        margin: 10
+    },
+    view:{
+        flex: 1,
+        marginLeft:10,
+        marginTop:0,
+
     }
+
+
 });
 
 export default styles;

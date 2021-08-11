@@ -40,24 +40,23 @@ export default function Scores({ navigation }: ScoresProps): ReactElement {
     //-----------------------------------------
     return (
         <GradientBackground>
-            <SafeAreaView>   
             <DrawerHeader drawerOpenCallback={openDrawer} endGameCallback={openDrawer}/>
-            <ScrollView contentContainerStyle={styles.container}>
+            <SafeAreaView style={styles.container}>   
+            <ScrollView>
     
-                <>
+                <View>
                     <Text style={styles.title}>score</Text>
-                    <View style={styles.buttons}>
                     <Scoreboard players={playerScores}/>
-                    </View>
-                </>
+                </View>
             
                 <>
-                    <Button title="next player"
+                    <Button 
+                        title="next player"
                         onPress={() => {
                         dispatch(setPerformingTurn(numOfPlayers))
                         navigation.navigate(ScreenNames.PerformPrompt)
-                        dispatch(resetVoter())
-                        {console.log("performing player" + performingPlayer + "voting player " + votingPlayer)}
+                        dispatch(setVotingTurn(numOfPlayers))
+                        // dispatch(setVotingTurn(numOfPlayers))
                     }}/>
                     
                 </> 
