@@ -28,18 +28,20 @@ export default function SideBarScores({ navigation }: ScoresProps): ReactElement
     }
 
     return (
-        <GradientBackground>
-            <SafeAreaView>
+        <GradientBackground>            
             <DrawerHeader drawerOpenCallback={openDrawer} endGameCallback={endGame}/>
-            <ScrollView contentContainerStyle={styles.container}>
-    
-                <>
-                    <Text style={styles.title}>score</Text>
-                    <View style={styles.buttons}>
-                    <Scoreboard players={playerScores}/>
+            <SafeAreaView style={styles.container}>
+                <ScrollView>
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.title}>score</Text>
                     </View>
-                </>
-            </ScrollView>
+                    <View style={styles.scoreboardContainer}>
+                        <View style={styles.scoreboard}>
+                            <Scoreboard players={playerScores}/>
+                        </View>
+                    </View>
+                
+                </ScrollView>
             </SafeAreaView>
         </GradientBackground>
     );

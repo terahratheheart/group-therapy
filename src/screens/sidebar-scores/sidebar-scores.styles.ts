@@ -2,8 +2,8 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         alignItems: "center",
-        paddingTop: 120,
     },
 
     buttons: {
@@ -22,7 +22,24 @@ const styles = StyleSheet.create({
 
     subtitle: {
         color: "#ffffff"
-    }
+    },
+
+    scoreboard: {
+        borderColor: "#ffffff",
+        borderWidth: 1,
+        borderRadius: 6,
+        alignItems: "center",
+        width: 300
+
+    },
+
+    scoreboardContainer: {
+        alignItems: "center"
+    },
+
+    titleContainer:{
+        alignItems: "center"
+    },
 });
 
 export default styles;

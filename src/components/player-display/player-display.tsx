@@ -15,8 +15,7 @@ type PlayerDisplayProps = {
 export default function PlayerDisplay({players}: PlayerDisplayProps): ReactElement {
     const dispatch = useAppDispatch()
     const playerComponents = players.map((player, index) => {
-        return (<View style={styles.container}>
-                    <Fragment key={index}>
+        return (<View style={styles.container} key={index}>
                         <DeletePlayerIcon 
                             style={styles.deleteButton}
                             onPress={() => {   
@@ -26,7 +25,6 @@ export default function PlayerDisplay({players}: PlayerDisplayProps): ReactEleme
                         <Player
                             playerName={player}
                         ></Player>
-                    </Fragment>
                 </View>
         );
     });

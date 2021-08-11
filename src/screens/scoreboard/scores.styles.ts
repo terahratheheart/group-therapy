@@ -3,13 +3,17 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        alignItems: "center"
     },
 
-    buttons: {
-        marginTop: 80
-    },
     button: {
-        marginBottom: 20
+        marginTop: 30,
+        marginBottom: 20,
+        width: 180
+    },
+
+    buttonContainer:{
+        alignItems: "center"
     },
 
     title: {
@@ -19,8 +23,25 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     },
 
+    titleContainer:{
+        alignItems: "center"
+    },
+
     subtitle: {
         color: "#ffffff"
+    },
+
+    scoreboard: {
+        borderColor: "#ffffff",
+        borderWidth: 1,
+        borderRadius: 6,
+        alignItems: "center",
+        width: 300
+
+    },
+
+    scoreboardContainer: {
+        alignItems: "center"
     }
 });
 

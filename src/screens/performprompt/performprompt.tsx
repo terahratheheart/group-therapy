@@ -10,6 +10,7 @@ import { StackNavigatorParams, ScreenNames} from "@config/navigator";
 import { addCardId, minusScore, resetGame } from "../../redux/actions";
 import { Text } from "@Components"
 import { DrawerActions } from "@react-navigation/native";
+import { Audio } from 'expo-av';
 
 type PerformPromptProps = {
     navigation: StackNavigationProp<StackNavigatorParams, ScreenNames.PerformPrompt>;
@@ -29,6 +30,8 @@ export default function PerformPrompt({navigation}: PerformPromptProps): ReactEl
     const [cardButtonsVisible, setCardButtonsVisible] = useState(false)
     const [cardView, setCardView] = useState("tap for prompt")
     const [cardClickable, setCardClickable] = useState(true)
+    const [sound, setSound] = useState();
+
 
     const dispatch = useAppDispatch()
 
@@ -44,6 +47,21 @@ export default function PerformPrompt({navigation}: PerformPromptProps): ReactEl
         dispatch(resetGame())
         navigation.navigate(ScreenNames.Home)
     }
+// ---------sound--------------
+    async function playSound() {
+        const { sound }: any = await Audio.Sound.createAsync(
+            require('../../../assets/alert.wav')
+        );
+        setSound(sound);
+        await sound.playAsync(); }
+    
+        // React.useEffect(() => {
+        // return sound
+        // ? () => {
+        //     console.log('Unloading Sound');
+        //     sound.unloadAsync(); }
+        // : undefined;
+        // }, [sound]);
     //-----------------------------------------
 
     // ------------ensuring prompt is unique to game------
@@ -115,6 +133,7 @@ export default function PerformPrompt({navigation}: PerformPromptProps): ReactEl
                         onComplete={() => {
                             setCompleteButtonVisible(true)
                             setClockIsVisible(false)
+                            playSound()
                             return [false, 0] }}
                         >
                     {   ({ remainingTime}) => (

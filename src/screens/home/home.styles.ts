@@ -15,13 +15,14 @@ const styles = StyleSheet.create({
 
     title: {
         color: "#ffffff",
-        fontSize: 30,
+        fontSize: 45,
         paddingBottom: 20,
         fontWeight: "bold"
     },
 
     subtitle: {
-        color: "#ffffff"
+        color: "#ffffff",
+        fontSize: 25
     }
 });
 
