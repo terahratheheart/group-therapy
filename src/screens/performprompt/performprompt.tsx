@@ -11,6 +11,8 @@ import { addCardId, minusScore, resetGame } from "../../redux/actions";
 import { Text } from "@Components"
 import { DrawerActions } from "@react-navigation/native";
 import { Audio } from 'expo-av';
+// import { openDrawer } from "../../utils/helper-function"
+// import { endGame } from "../../utils/helper-function"
 
 type PerformPromptProps = {
     navigation: StackNavigationProp<StackNavigatorParams, ScreenNames.PerformPrompt>;
@@ -18,12 +20,11 @@ type PerformPromptProps = {
 
 export default function PerformPrompt({navigation}: PerformPromptProps): ReactElement {
 
-
-    // ------------------global states-----------------
+// ------------------global states-----------------
     const players = useAppSelector(state => state.players)
     const performingPlayer = useAppSelector(state => state.turn.performingPlayerIndex)
     const cardIds = useAppSelector(state=> state.cardIds)
-    // --------local states-----------
+// ---------------------local states--------------------
     const [isPlaying, setIsPlaying] = useState(false)
     const [clockVisible, setClockIsVisible] = useState(false)
     const [completeButtonVisible, setCompleteButtonVisible] = useState(false)
@@ -32,13 +33,14 @@ export default function PerformPrompt({navigation}: PerformPromptProps): ReactEl
     const [cardClickable, setCardClickable] = useState(true)
     const [sound, setSound] = useState();
 
-
+//-----------------------redux action---------------------
     const dispatch = useAppDispatch()
 
-    // ---------helper functions---------------
+// ---------helper functions---------------
     function getRandomInt(max: number):number {
         return Math.floor(Math.random() * max);
         }
+
     function openDrawer(): any {
         navigation.dispatch(DrawerActions.openDrawer())
     }
@@ -47,7 +49,13 @@ export default function PerformPrompt({navigation}: PerformPromptProps): ReactEl
         dispatch(resetGame())
         navigation.navigate(ScreenNames.Home)
     }
-// ---------sound--------------
+
+    function buttonPress(): any {
+        setCompleteButtonVisible(false)
+        setCardView("tap for prompt")
+        setCardClickable(true);
+    }
+// ---------sound------------------------------
     async function playSound() {
         const { sound }: any = await Audio.Sound.createAsync(
             require('../../../assets/alert.wav')
@@ -55,16 +63,7 @@ export default function PerformPrompt({navigation}: PerformPromptProps): ReactEl
         setSound(sound);
         await sound.playAsync(); }
     
-        // React.useEffect(() => {
-        // return sound
-        // ? () => {
-        //     console.log('Unloading Sound');
-        //     sound.unloadAsync(); }
-        // : undefined;
-        // }, [sound]);
-    //-----------------------------------------
-
-    // ------------ensuring prompt is unique to game------
+// ------------ensuring prompt is unique to game------
     let randomNum = getRandomInt(prompts["therapy cards"].length)
     let prompt:any 
     let id:number
@@ -72,16 +71,18 @@ export default function PerformPrompt({navigation}: PerformPromptProps): ReactEl
         randomNum = getRandomInt(prompts["therapy cards"].length)
     } 
     prompt = prompts["therapy cards"][randomNum] 
-    //--------------------------------------------------
+//--------------------------------------------------
 
     return ( 
         <GradientBackground>
             <DrawerHeader drawerOpenCallback={openDrawer} endGameCallback={endGame}/>
             <SafeAreaView style={styles.container}>
+
                 <View style={styles.titleContainer}>
                     <Text style={styles.header}>{players[performingPlayer]}'s turn</Text>
-                <View style={styles.cardContainer}>
                 </View>
+
+                <View style={styles.cardContainer}>
                     <TouchableOpacity style={styles.card}
                         onPress={() => {
                         if(cardClickable){
@@ -94,7 +95,6 @@ export default function PerformPrompt({navigation}: PerformPromptProps): ReactEl
                     </TouchableOpacity>
                 </View>
                 
-
                 {cardButtonsVisible ? 
                 <View style={styles.buttonContainer}>
                     <Button 
@@ -103,10 +103,8 @@ export default function PerformPrompt({navigation}: PerformPromptProps): ReactEl
                         onPress={() => {
                             navigation.navigate(ScreenNames.Scores)
                             dispatch(minusScore(performingPlayer))
-                            setCompleteButtonVisible(false)
-                            setCardView("tap for prompt")
                             setCardButtonsVisible(false)
-                            setCardClickable(true);
+                            buttonPress();
                     }}/>
                     <Button 
                         title="accept"
@@ -120,7 +118,6 @@ export default function PerformPrompt({navigation}: PerformPromptProps): ReactEl
                 : <Text>  </Text> }
 
                 <View style={styles.clockContainer}>
-                    
                     {clockVisible ?
                     <CountdownCircleTimer
                         isPlaying={isPlaying}
@@ -152,9 +149,7 @@ export default function PerformPrompt({navigation}: PerformPromptProps): ReactEl
                         style={styles.completeButton}
                         onPress={() => {
                         navigation.navigate(ScreenNames.Voting)
-                        setCompleteButtonVisible(false)
-                        setCardView("tap for prompt")
-                        setCardClickable(true);
+                        buttonPress()
                         }}/> : <Text>  </Text>}
                 </View>
 

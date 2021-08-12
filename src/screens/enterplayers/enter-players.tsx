@@ -13,29 +13,27 @@ type EnterPlayerProps = {
 };
 
 export default function EnterPlayers({ navigation }: EnterPlayerProps): ReactElement {
-    //-----------------------------global state------------
+    //------------------------redux actions--------------------
+        const dispatch = useAppDispatch()
+    //-----------------------------global state---------------
     const players = useAppSelector(state => state.players)
-    //---------------------------local state--------------
+    //---------------------------local state------------------
     const [newPlayer, onChangeNewPlayer] = useState("");
     const [errorMsg, setErrorMsg] = useState("")
-
-    const dispatch = useAppDispatch()
 
     return (
         <GradientBackground>
             <SafeAreaView style={styles.container}>
-                
-                
+    
                 <View style={styles.inputContainer}>
-                <Text style={styles.title}>enter players:</Text>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={onChangeNewPlayer}
-                        value={newPlayer}/>
+                    <Text style={styles.title}>enter players:</Text>
+                        <TextInput
+                            style={styles.input}
+                            onChangeText={onChangeNewPlayer}
+                            value={newPlayer}/>
                     {errorMsg ?
-                    <Text style={styles.errormsg}>
-                    {errorMsg} </Text>: <></>}
-                    
+                        <Text style={styles.errormsg}>
+                    {errorMsg} </Text>: <></>} 
                 </View>
 
                 <View style={styles.buttonContainer}>        
@@ -66,7 +64,9 @@ export default function EnterPlayers({ navigation }: EnterPlayerProps): ReactEle
                                 navigation.navigate(ScreenNames.PerformPrompt)};
                             }}/>
                 </View>
-                <PlayerDisplay players={players}/>                 
+
+                <PlayerDisplay players={players}/>  
+                               
             </SafeAreaView>
         </GradientBackground>
     );

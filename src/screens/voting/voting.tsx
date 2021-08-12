@@ -6,9 +6,11 @@ import { StackNavigatorParams } from "@config/navigator";
 import { WithItButton, CopOutButton, Button, DrawerHeader, GradientBackground, Scoreboard, Text } from "@Components";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { ScreenNames } from "@config/navigator"
-import { addScore, minusScore, resetGame, resetVoter, setPerformingTurn, setVotingTurn } from "../../redux/actions";
+import { addScore, minusScore, resetGame, setPerformingTurn, setVotingTurn } from "../../redux/actions";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DrawerActions } from "@react-navigation/native";
+// import { openDrawer } from "../../utils/helper-function"
+// import { endGame } from "../../utils/helper-function"
 
 type VotingProps = {
     navigation: StackNavigationProp<StackNavigatorParams, ScreenNames.Voting>;
@@ -28,7 +30,6 @@ export default function Voting({ navigation }: VotingProps): ReactElement {
     // --------local states--------------------
     const [withIt, setWithIt] = useState(0)
     const [copOut, setCopOut] = useState(0)
-
     // --------local variables--------------------
     const dispatch = useAppDispatch()
     const numOfPlayers = players.length
@@ -50,84 +51,87 @@ export default function Voting({ navigation }: VotingProps): ReactElement {
         <GradientBackground>
             <DrawerHeader drawerOpenCallback={openDrawer} endGameCallback={endGame}/>
             <SafeAreaView style={styles.container}>
-            <ScrollView>
-                { !endOfVoting && !winner ?
-                <>
-                    <View style={styles.titleContainer}>
-                    <Text style={styles.title}>{votingPlayerName}'s vote for {performingPlayerName}</Text>
-                    </View>  
-                    <View style={styles.buttonContainer}>
-                        <WithItButton 
-                            title="with it"
-                            style={[styles.button, styles.withItButton]}
-                            onPress={() => {
-                            setWithIt(withIt + 1)
-                            dispatch(addScore(performingPlayer))
-                            dispatch(setVotingTurn(numOfPlayers))
-                        
-                        }}/>
-                        <CopOutButton 
-                            title="cop out"
-                            style={styles.button}
-                            onPress={() => {
-                            setCopOut(copOut + 1)
-                            dispatch(minusScore(performingPlayer))
-                            dispatch(setVotingTurn(numOfPlayers))
-                        }}/>
-                    </View>
-                </>
-                : <Text> </Text> }
-                { endOfVoting && !winner ? 
-                <View>
-                    <View style={styles.titleContainer}>
-                        <Text style={styles.title}>{performingPlayerName} voting results:</Text>
-                        { coppedOut ?
-                        <View style={styles.copoutContainer}>
-                        <Text style={styles.copoutTitle}>cop out!</Text>
-                        <Text style={styles.copoutText}>give them feedback on how they could have shown up more authentically</Text> 
-                    </View> :
+                <ScrollView>
+                    { !endOfVoting && !winner ?
+                    <>
+                        <View style={styles.titleContainer}>
+                            <Text style={styles.title}>{votingPlayerName}'s vote for {performingPlayerName}</Text>
+                        </View>  
+                        <View style={styles.buttonContainer}>
+                            <WithItButton 
+                                title="with it"
+                                style={[styles.button, styles.withItButton]}
+                                onPress={() => {
+                                setWithIt(withIt + 1)
+                                dispatch(addScore(performingPlayer))
+                                dispatch(setVotingTurn(numOfPlayers))
+                            
+                            }}/>
+                            <CopOutButton 
+                                title="cop out"
+                                style={styles.button}
+                                onPress={() => {
+                                setCopOut(copOut + 1)
+                                dispatch(minusScore(performingPlayer))
+                                dispatch(setVotingTurn(numOfPlayers))
+                            }}/>
+                        </View>
+                    </>
+                    : <Text> </Text> }
+                    { endOfVoting && !winner ? 
+                    <View>
+                        <View style={styles.titleContainer}>
+                            <Text style={styles.title}>{performingPlayerName} voting results:</Text>
+                            { coppedOut ?
+                            <View style={styles.copoutContainer}>
+                            <Text style={styles.copoutTitle}>cop out!</Text>
+                            <Text style={styles.copoutText}>give them feedback on how they could have shown up more authentically</Text> 
+                        </View> 
+                        :
                         <Text>  </Text> }
-                        { withItt ?
+                            { withItt ?
                         <View style={styles.copoutContainer}>
-                        <Text style={styles.copoutTitle}>with it!</Text>
-                    </View> :
-                        <Text>  </Text> }
+                            <Text style={styles.copoutTitle}>with it!</Text>
+                        </View> :
+                            <Text>  </Text> }
                         <View style={styles.scoresContainer}>
                             <Text style={styles.subtitle}>with it: {withIt} </Text>
                             <Text style={styles.subtitle}>cop out: {copOut} </Text>
                         </View>
-                    </View>
-                    <View style={styles.scoreboardContainer}>
-                    <View style={styles.scoreboard}>
-                        <Scoreboard players={playerScores}/>
-                    </View>
-                    </View>
-                    <View style={[styles.buttonContainer, styles.nextButton]}>
-                        <Button 
-                            title="next player >"
+                        </View>
+                        <View style={styles.scoreboardContainer}>
+                        <View style={styles.scoreboard}>
+                            <Scoreboard players={playerScores}/>
+                        </View>
+                        </View>
+
+                        <View style={[styles.buttonContainer, styles.nextButton]}>
+                            <Button 
+                                title="next player >"
+                                onPress={() => {
+                                dispatch(setPerformingTurn(numOfPlayers))
+                                navigation.navigate(ScreenNames.PerformPrompt)
+                                // dispatch(resetVoter())
+                                dispatch(setVotingTurn(numOfPlayers))
+                                dispatch(setVotingTurn(numOfPlayers))
+                
+                            }}/>
+                        </View>
+                    </View> : <Text> </Text>}
+
+
+                    {winner ? 
+                    <>
+                    <Text style={styles.subtitle}>{players[performingPlayer]} has become free!</Text>
+                    <Button title="end game"
                             onPress={() => {
-                            dispatch(setPerformingTurn(numOfPlayers))
-                            navigation.navigate(ScreenNames.PerformPrompt)
-                            // dispatch(resetVoter())
-                            dispatch(setVotingTurn(numOfPlayers))
-                            dispatch(setVotingTurn(numOfPlayers))
-            
+                            navigation.navigate(ScreenNames.Home)
+                            dispatch(resetGame())
+                            
                         }}/>
-                    </View>
-                </View> : <Text> </Text>}
-
-
-                {winner ? 
-                <>
-                <Text style={styles.subtitle}>{players[performingPlayer]} has become free!</Text>
-                <Button title="end game"
-                        onPress={() => {
-                        navigation.navigate(ScreenNames.Home)
-                        dispatch(resetGame())
-                        
-                    }}/>
-                </>: <Text>  </Text>}
-            </ScrollView>
+                    </>: <Text>  </Text>}
+                    
+                </ScrollView>
             </SafeAreaView>
         </GradientBackground>
     );
